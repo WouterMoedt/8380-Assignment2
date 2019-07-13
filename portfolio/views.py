@@ -5,7 +5,7 @@ from .forms import *
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from .forms import UserRegistrationForm
-#from .forms import LoginForm
+from .forms import LoginForm
 
 
 now = timezone.now()

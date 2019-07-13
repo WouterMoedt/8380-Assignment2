@@ -21,6 +21,11 @@ class InvestmentForm(forms.ModelForm):
        fields = ('customer', 'category', 'description', 'acquired_value', 'acquired_date', 'recent_value', 'recent_date',)
 
 
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(label='Password',
                                widget=forms.PasswordInput)
