@@ -82,11 +82,11 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{% url 'logout' %}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                            <li><a href='password_change'><i class="fa fa-btn fa-sign-in"></i>Change Password</a></li>
                         </ul>
                     </li>
                 {% else %}
                     <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                    <li><a href='register'>Create an Account</a></li>
                 {% endif %}
             </ul>
         </div>

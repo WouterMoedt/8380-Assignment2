@@ -123,3 +123,11 @@ STATIC_URL = '/static/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = '/home'
 LOGOUT_REDIRECT_URL = '/home'
+
+
+# SMTP Settings
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'wouter.django@gmail.com'
+EMAIL_HOST_PASSWORD = 'DJANGO123'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
