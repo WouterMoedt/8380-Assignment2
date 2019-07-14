@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -159,3 +160,9 @@ EMAIL_HOST_USER = 'wouter.django@gmail.com'
 EMAIL_HOST_PASSWORD = 'DJANGO123'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+
+# --- reCAPTCHA Settings ---
+RECAPTCHA_PUBLIC_KEY = '6LcRw30UAAAAADadckX8cY8tP8e-Wc2TaeUQDlPx'
+RECAPTCHA_PRIVATE_KEY = '6LcRw30UAAAAAMkIGrEVmbSXTJL99uu6IkK98PaL'
+NOCAPTCHA = True
