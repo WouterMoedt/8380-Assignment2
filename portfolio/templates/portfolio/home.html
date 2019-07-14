@@ -14,6 +14,7 @@
                     <div class="col-md-12">
                         <div class="links">
                             <!-- Example row of columns -->
+                            {% if user.is_authenticated %}
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="thumbnail">
@@ -54,8 +55,39 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
+                                {% else %}
+                                <br>
+                                <br>
+                                <div class="row">
+                                <div class="col-md-5">
+                                    <div class="thumbnail">
+                                        <img src="{% static "images/login.jpg" %}" alt="customer"/>
+                                        <div class="caption">
+                                            <h2>Login</h2>
+                                            <p>We see our success in our customers success, it gives us an immense
+                                                pleasure when our
+                                                advises
+                                                turn out to be fruitful. </p>
+                                            <p><a class="btn btn-primary" href="{% url 'login' %}"
+                                                  role="button">View
+                                                details &raquo;</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="thumbnail">
+                                        <img src="{% static "images/register.jpg" %}" alt="non-stock"/>
+                                        <div class="caption">
+                                            <h2>Create an Account</h2>
+                                            <p>Our team also provides advises for Non-Stock investments.</p>
+                                            <p><a class="btn btn-primary" href="{% url 'portfolio:register' %}"
+                                                  role="button">View
+                                                details &raquo;</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
