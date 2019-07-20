@@ -1,0 +1,205 @@
+{% load humanize %}
+{% load mathfilters %}
+{{ my_num|intcomma }}
+
+{% load staticfiles %}
+
+<html lang="en">
+<head>
+    <title>Eagle Financial Services</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        /* Remove the navbar's default margin-bottom and rounded borders */
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+            background-color: #022844;
+        }
+        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+        .row.content {
+            height: 450px
+        }
+        /* Set gray background color and 100% height */
+        .sidenav {
+            padding-top: 20px;
+            background-color: #022844;
+            height: 100%;
+        }
+        /* Set black background color, white text and some padding */
+        footer {
+            background-color: #555;
+            color: white;
+            padding: 15px;
+        }
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 767px) {
+            .sidenav {
+                height: auto;
+                padding: 15px;
+            }
+            .row.content {
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body id="app-layout">
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+
+            <!-- Collapsed Hamburger -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#myNavbar">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Branding Image -->
+            <a class="navbar-brand" href="/">
+                Eagle Financial Services
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'portfolio:home' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'portfolio:customer_list' %}">Customers</a></li>
+                    <li><a href="{% url 'portfolio:investment_list' %}">Investments</a></li>
+                    <li><a href="{% url 'portfolio:stock_list' %}">Stocks</a></li>
+                {% endif %}
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{% url 'logout' %}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                            <li><a href='password_change'><i class="fa fa-btn fa-sign-in"></i>Change Password</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li><a href={% url 'portfolio:register'%}>Create Account</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+</body>
+</html>
+
+<div class="row">
+    <h1 style="padding-left: 15Px">Customer Portfolio</h1>
+</div>
+
+<div class="row">
+    <h2 style="padding-left: 15Px">Stocks Information</h2>
+</div>
+<div class="row">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr class="bg-info">
+            <th>Customer</th>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Shares</th>
+            <th>Initial Stock Price</th>
+            <th>Initial Stock Value</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for stock in stocks %}
+            <tr>
+                <td>{{ stock.customer }}</td>
+                <td>{{ stock.symbol }}</td>
+                <td>{{ stock.name }}</td>
+                <td>{{ stock.shares|floatformat|intcomma }}</td>
+                <td>{{ stock.purchase_price|floatformat|intcomma }}</td>
+                <td>{{ stock.initial_stock_value|floatformat|intcomma}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr class="bg-info">
+            <th>Total of Initial Stocks</th>
+            <th>Total of Current Stocks</th>
+            <th>Results</th>
+        </tr>
+        </thead>
+
+        <tbody></tbody>
+            <!--- Sums accessed through autofill in Pycharm ?-->
+            <tr>
+                <td>{{ sum_of_initial_stock_value|floatformat|intcomma }}</td>
+                <td>{{ sum_current_stocks_value|floatformat|intcomma }}</td>
+                <td>{{ sum_current_stocks_value|sub:sum_of_initial_stock_value|floatformat|intcomma }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+<div class="row">
+    <h2 style="padding-left: 15Px">Investment Information</h2>
+</div>
+<div class="row">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr class="bg-info">
+            <th>Customer</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Acquired Value</th>
+            <th>Acquired Date</th>
+            <th>Recent Value</th>
+            <th>Recent Date</th>
+            <th>Results</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for investment in investments %}
+            <tr>
+                <td>{{ investment.customer }}</td>
+                <td>{{ investment.category }}</td>
+                <td>{{ investment.description }}</td>
+                <td>{{ investment.acquired_value|floatformat|intcomma }}</td>
+                <td>{{ investment.acquired_date }}</td>
+                <td>{{ investment.recent_value|floatformat|intcomma }}
+                <td>{{ investment.recent_date }}</td>
+                <td>{{ investment.recent_value|sub:investment.acquired_value|floatformat|intcomma }}
+            </tr>
+        {% endfor %}
+
+           <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr class="bg-info">
+            <th>Total of Initial Investments</th>
+            <th>Total of Current Investments</th>
+            <th>Results</th>
+        </tr>
+        </thead>
+
+        <tbody>
+            <!--- Sums cannot be accessed? ?-->
+            <tr>
+                <td>{{ acquired_value|floatformat|intcomma }}</td>
+                <td>{{ sum_current_stocks_value|floatformat|intcomma }}</td>
+                <td>{{ sum_current_stocks_value|sub:sum_of_initial_stock_value|floatformat|intcomma }}</td>
+            </tr>
+        </tbody>
+    </table>
+        </tbody>
+    </table>

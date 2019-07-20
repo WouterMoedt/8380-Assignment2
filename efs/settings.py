@@ -64,6 +64,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'captcha',
+    'rest_framework',
+    'mathfilters',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
