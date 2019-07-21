@@ -56,6 +56,8 @@ except ImportError:
 
 INSTALLED_APPS = [
     'portfolio',
+    'jet.dashboard',
+    'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -163,6 +165,23 @@ EMAIL_HOST_USER = 'wouter.django@gmail.com'
 EMAIL_HOST_PASSWORD = 'DJANGO123'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+
+# --- JET Settings ---
+JET_DEFAULT_THEME = 'default'
+
+JET_THEMES = [
+    {
+        'theme': 'light-blue',
+        'color': '#5EADDE',
+        'title': 'Blue'
+    },
+    {
+        'theme': 'light-gray',
+        'color': '#151d28',
+        'title': 'MavEatFit Dark'
+    }
+]
 
 
 # --- reCAPTCHA Settings ---

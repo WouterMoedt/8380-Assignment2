@@ -5,6 +5,9 @@ from django.contrib.auth import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+    # Admin
+    url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
+    url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     path('admin/', admin.site.urls),
     path('', include('portfolio.urls')),
 
