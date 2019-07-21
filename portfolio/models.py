@@ -82,4 +82,12 @@ class Stock(models.Model):
         return share_value
 
     def current_stock_value(self):
-        return float(self.current_stock_price()) * float(self.shares)
+        symbol_f = str(self.symbol)
+        main_api = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol='
+        api_key = '&interval=1min&apikey=Q93RA9Q5IITSGV1V'
+        url = main_api + symbol_f + api_key
+        json_data = requests.get(url).json()
+        mkt_dt = (json_data["Meta Data"]["3. Last Refreshed"])
+        open_price = float(json_data["Time Series (1min)"][mkt_dt]["1. open"])
+        share_value = open_price
+        return float(share_value) * float(self.shares)
