@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Customer, Stock, Investment
+from .models import Customer, Stock, Investment, MutualFund
 from captcha.fields import ReCaptchaField
 
 
@@ -20,6 +20,12 @@ class InvestmentForm(forms.ModelForm):
    class Meta:
        model = Investment
        fields = ('customer', 'category', 'description', 'acquired_value', 'acquired_date', 'recent_value', 'recent_date',)
+
+
+class MutualFundForm(forms.ModelForm):
+   class Meta:
+       model = MutualFund
+       fields = ('customer', 'name', 'shares', 'purchase_value', 'purchase_date', 'current_value', 'current_date',)
 
 
 class LoginForm(forms.Form):

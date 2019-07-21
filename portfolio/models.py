@@ -53,6 +53,26 @@ class Investment(models.Model):
         return self.recent_value - self.acquired_value
 
 
+class MutualFund(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='mutualfund')
+    name = models.CharField(max_length=50)
+    shares = models.DecimalField(max_digits=10, decimal_places=1)
+    purchase_value = models.DecimalField(max_digits=10, decimal_places=2)
+    purchase_date = models.DateField(default=timezone.now)
+    current_value = models.DecimalField(max_digits=10, decimal_places=2)
+    current_date = models.DateField(default=timezone.now, blank=True, null=True)
+
+    def created(self):
+        self.purchase_date = timezone.now()
+        self.save()
+
+    def __str__(self):
+        return str(self.customer)
+
+    def initial_mutual_fund(self):
+        return self.shares * self.purchase_value
+
+
 class Stock(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='stocks')
     symbol = models.CharField(max_length=10)
