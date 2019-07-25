@@ -208,12 +208,30 @@ def mutualfund_delete(request, pk):
 def portfolio(request,pk):
    customer = get_object_or_404(Customer, pk=pk)
    customers = Customer.objects.filter(created_date__lte=timezone.now())
-   investments =Investment.objects.filter(customer=pk)
-   stocks = Stock.objects.filter(customer=pk)
+
+
+   # Initialize the value of the Investments
+   investments = Investment.objects.filter(customer=pk)
    sum_recent_value = Investment.objects.filter(customer=pk).aggregate(Sum('recent_value'))
    sum_acquired_value = Investment.objects.filter(customer=pk).aggregate(Sum('acquired_value'))
-   #overall_investment_results = sum_recent_value-sum_acquired_value
-   # Initialize the value of the stocks
+
+   sum_recent_investments = sum_recent_value.get('recent_value__sum')
+   sum_acquired_investments = sum_acquired_value.get('acquired_value__sum')
+
+
+   # Initialize the value of Mutual Funds
+   mutualfunds = MutualFund.objects.filter(customer=pk)
+   sum_initial_mutualfund_value = 0
+   sum_current_mutualfund_value = 0
+
+   # Loop through each mutual fund and add the value to the total
+   for mutualfund in mutualfunds:
+       sum_initial_mutualfund_value += mutualfund.initial_mutualfund_value()
+       sum_current_mutualfund_value += mutualfund.current_mutualfund_value()
+
+
+   # Initialize the value of the Stocks
+   stocks = Stock.objects.filter(customer=pk)
    sum_current_stocks_value = 0
    sum_of_initial_stock_value = 0
 
@@ -221,8 +239,7 @@ def portfolio(request,pk):
    for stock in stocks:
         sum_current_stocks_value += stock.current_stock_value()
         sum_of_initial_stock_value += stock.initial_stock_value()
-        sum_recent_investments = sum_recent_value.get('recent_value__sum')
-        sum_acquired_investments = sum_acquired_value.get('acquired_value__sum')
+
 
    return render(request, 'portfolio/portfolio.html', {'customers': customers,
                                                        'investments': investments,
@@ -233,6 +250,9 @@ def portfolio(request,pk):
                                                        'sum_of_initial_stock_value': sum_of_initial_stock_value,
                                                        'sum_recent_investments': sum_recent_investments,
                                                        'sum_acquired_investments': sum_acquired_investments,
+                                                       'mutualfunds': mutualfunds,
+                                                       'sum_current_mutualfund_value': sum_current_mutualfund_value,
+                                                       'sum_initial_mutualfund_value': sum_initial_mutualfund_value,
                                                        })
 
 

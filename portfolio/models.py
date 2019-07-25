@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 import requests
+from decimal import Decimal
 
 # Create your models here.
 class Customer(models.Model):
@@ -69,8 +70,11 @@ class MutualFund(models.Model):
     def __str__(self):
         return str(self.customer)
 
-    def initial_mutual_fund(self):
+    def initial_mutualfund_value(self):
         return self.shares * self.purchase_value
+
+    def current_mutualfund_value(self):
+        return self.shares * self.current_value
 
 
 class Stock(models.Model):
